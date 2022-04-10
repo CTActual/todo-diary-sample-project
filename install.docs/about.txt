@@ -1,0 +1,44 @@
+What is this all for?
+
+This To-Do/Diary website is designed to be a very simple demonstration of the Hoopla Framework in action and help get any Hoopla programmers up to speed more quickly.
+
+It is designed to be simple enough to allow for a programmer to dive into the code while still showing off enough features to be useful.
+
+The website code consists of the single page index.php, which acts as an wrapper/outline for the includes/page.half.php file.
+
+The page.half.php file runs both sides of the index.php page, rendering both the To-Do List and the Diary.
+
+This can be done because the Hoopla Framework holds all the objects for each half, which are called up separately as each half loads.
+
+The objects are stitched together through the classes/obj.handling.classes.php/gen_form_obj_row function call.
+
+In this particular use of Hoopla, the objects are called recursively through the classes/obj.handling.classes.php/gen_form_obj function call.
+
+Hoopla does not depend on recursion, but it is easier to stitch together objects with settings and real world values this way.
+
+We make heavy use of the __swap_out__ string convention to replace object placeholders with real world values.
+
+This website makes heavy use of other libraries that are not part of Hoopla, and are not covered in any detail in the documentation for this website or the Hoopla UI.  They should not be hard to follow, regardless.
+
+The database calls are handled by several classes and a MySQLI library that is not directly part of Hoopla, either.  However, they should not be hard to follow.  All the database calls are wrapped in functions, so the details are not important per se.
+
+Hoopla Framework objects are static and can be handled read-only.  This removes a huge class of side-effects from the code and allows for better code segregation.  However, we do provide the user strings for modifying the HFW database, even if the export library has no function calls for doing so.
+
+To alter the website or even just learn more about how it works, you should set up the Hoopla Framework UI/Website and connect it to the tdlhfw database that comes with this project.
+
+You can use this website (save a back-up first and frequently!) to educate yourself on how the framework can work.
+
+The framework is agnostic on parsing and rendering, sticking to the task of object storage and retrieval.  However, feel free to use the libraries here for parsing and rendering once you get a handle on how it works.
+
+At some point you will want to create your own parsing and rendering solutions.
+
+Comments in the HTML will help you see how the DIV tags are laid out.  The CSS comes from bootstrap.
+
+Comments in the export library code will be helpful.  Comments in the other parts of the code are sparser.  
+
+We have included some unused (for this example) parsing and rendering function calls that work through page-mapping techniques.  They are somewhat limited in what they can do lay-out, wise, but useful for tabular data sets.
+
+We have tried to reduce the number of PHP warnings and notices to a minimum, but they will slip through.
+
+Hoopla is based on twenty+ years of website application development experience.
+
