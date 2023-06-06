@@ -23,3 +23,5 @@ You can make these associations later if you want, too, or remove them.
 The existing entries can be removed with access to the todolist database.
 
 Future versions of this code will probably have more features not outlined here.
+
+Additional 2023 features:  New features include the full To-Do List and full Diary pages.  The full To-Do List page has sorting and filtering options now along with pagination.  The full Diary page has pagination.

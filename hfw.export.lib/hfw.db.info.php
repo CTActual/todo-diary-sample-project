@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2011-2022 Cargotrader, Inc. All rights reserved.
+Copyright 2011-2023 Cargotrader, Inc. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are
 permitted provided that the following conditions are met:
@@ -31,7 +31,10 @@ or implied, of Cargotrader, Inc.
 * website.  The website itself, while functional, is built for demonstration purposes only and will probably be 
 * inadequate to address any practical need.
 * 
-* Change the default passwords below and in mysqli.info.php for added security
+* 
+* Change the default passwords below and in user install scripts for added security
+* This file links to both the direct connection UI class and the export class for convenience, but 
+* the two files are distinct.  Local and server passwords should be different.
 * 
 */
 
@@ -43,8 +46,8 @@ or implied, of Cargotrader, Inc.
 			'password' => 'aishdiha&*Y(*G(&^G(jg&*(*8769876t', 
 			'database' => 'tdlhfw',
 			'port' => null,
-			'socket' => '', 
-			'flags'=>'');
+			'socket' => null, 
+			'flags'=> null);
 
 	if ($user_type == 'delete') 
 		{$dsn['username'] = 'tdldelete'; $dsn['password'] = '8yihsdf8ykjkjh*&T(&^(&GIUYG*&^h78y98y98ya0s8df';}

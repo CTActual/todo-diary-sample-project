@@ -6,4 +6,4 @@ This is a sample website/app that uses the **Hoopla Framework** as a backbone fo
 
 The goal is to demonstrate a possible use of the **Hoopla Framework** and create a basic how-to.
 
-It relies on some 3rd party HTML and CSS.  See copyright and license information within each file.
+It relies on some 3^rd party HTML and CSS.  See copyright and license information within each file.

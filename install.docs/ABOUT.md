@@ -4,9 +4,9 @@ This **To-Do/Diary** website is designed to be a very simple demonstration of th
 
 It is designed to be simple enough to allow for a programmer to dive into the code while still showing off enough features to be useful.
 
-The website code consists of the single page ***index.php***, which acts as an wrapper/outline for the ***includes/page.half.php*** file.
+The website code consists of three php pages, which point to the ***includes/page.half.php*** file.
 
-The ***page.half.php*** file runs both sides of the ***index.php*** page, rendering both the **To-Do List** and the **Diary**.
+The ***page.half.php*** file runs both sides of the ***index.php*** page, rendering both the **To-Do List** and the **Diary**, as well as the full version of each.
 
 This can be done because the **Hoopla Framework** holds all the objects for each half, which are called up separately as each half loads.
 

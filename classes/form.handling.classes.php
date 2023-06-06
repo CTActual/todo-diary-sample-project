@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2011-2022 Cargotrader, Inc. All rights reserved.
+Copyright 2011-2023 Cargotrader, Inc. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are
 permitted provided that the following conditions are met:
@@ -228,8 +228,10 @@ function process_post(&$p=null, $pg_id=null, $button=null, $ctx=null, $butloc=nu
 	// $p is short for $_POST
 	if (isset($button) && isset($p[$button]) && isset($pg_id) && isset($ctx) && isset($butloc) && $p[$button] == $ctx)
 	{
-		// Get the list of desired post variables
-		// These need to be in the order required by the subsequent procedure call
+		// Get the list of desired post variables, Post-Get-Request List (postlist).
+		// These need to be in the order required by the subsequent procedure call.
+		// We use the page id, button name (location) and context to return the postlist.
+		// Thus, these must be entered into the HFW database with appropriate setting types.
 		$postfieldstr = hfwn_return_value($pg_id, $butloc, $ctx, 'postlist');
 		$inputs = array();
 		
@@ -241,6 +243,7 @@ function process_post(&$p=null, $pg_id=null, $button=null, $ctx=null, $butloc=nu
 			{
 				foreach ($postfields as $i=>$pf)
 				{
+					// The $_POST (or $_REQUEST or $_GET) field values are returned as $pf.
 					$inputs[] = isset($p[$pf]) ? $p[$pf] : null;
 					}	# End of foreach
 				}	# End of is_array
@@ -253,7 +256,7 @@ function process_post(&$p=null, $pg_id=null, $button=null, $ctx=null, $butloc=nu
 		if (!empty($func) && function_exists($func) )
 		{
 			// Run func!!
-			$func($inputs);
+			return $func($inputs);
 			}
 		}
 	}	# End of process post
@@ -263,14 +266,34 @@ function get_current_values($pg_id=null, $formloc=null, $ctx=null)
 {
 	if (isset($pg_id) && isset($ctx) && isset($formloc) )
 	{
-		// Get the procedure reference
-		$func = hfwn_return_value($pg_id, $formloc, $ctx, 'php_func_call');
+		// Get the procedure reference and split into separate lines.
+		$func = explode("\r\n", hfwn_return_value($pg_id, $formloc, $ctx, 'php_func_call') );
 
-		// We make sure the func is real
-		if (!empty($func) && function_exists($func) )
+		// We make sure the func is real.  [0] is the function name.
+		if (isset($func[0]) && !empty($func[0]) && function_exists($func[0]) )
 		{
-			// Run func!!
-			return $func();
+			// Compile the input vars, if any, from [1]
+			if (isset($func[1]) && !empty($func[1]) )
+			{
+				$ins = explode(',', $func[1]);
+				
+				// We support up to four inputs
+				$i_count = count($ins);
+				
+				if ($i_count == 1)
+					{return $func[0]($ins[0]);}
+				elseif ($i_count == 2)
+					{return $func[0]($ins[0], $ins[1]);}
+				elseif ($i_count == 3)
+					{return $func[0]($ins[0], $ins[1], $ins[2]);}
+				elseif ($i_count == 4)
+					{return $func[0]($ins[0], $ins[1], $ins[2], $ins[3]);}
+				}
+			else
+			{
+				// Run func!!
+				return $func[0]();
+				}
 			}
 		}
 	return null;

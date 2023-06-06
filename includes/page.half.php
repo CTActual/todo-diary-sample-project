@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2011-2022 Cargotrader, Inc. All rights reserved.
+Copyright 2011-2023 Cargotrader, Inc. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are
 permitted provided that the following conditions are met:
@@ -32,63 +32,134 @@ or implied, of Cargotrader, Inc.
 * inadequate to address any practical need.
 * 
 */
+// This include is reused several times by various "pages".
+// It makes use of both standard HFW calls and calls made
+// specifically for the To-Do List project which are not included
+// with stock HFW code.
 
-// We need to process any posted forms first
+// The two halves are similar in some ways:  both are lists that contain old information at the top and 
+// new entries are made at the bottom.  They are also different in that their columns and data are not alike.
+// Also the formats do not truely match.  Likewise, when only one half is presentated in full page mode, the 
+// format adjusts.  This is not magic.  Each case must be delineated.  However, the formalism allows for very 
+// good code segregation and clear project organization.  
+
+// Most of the code here is the deconstructed HTML template.
+
+// We need to process any posted forms first.
+// Here we are insisting on the location names in the code.
 $butloc = 'addnewbut';
 $updloc = 'updoldbut';
 $addnewbut = hfwn_return_value($pg_id, $butloc, $ctx, 'csv');
 $updoldbut = hfwn_return_value($pg_id, $updloc, $ctx, 'csv');
 
+// We can get the Post-Get-Request Name (postname) entries from the database.
+// This is a bit more flexible.
 $addbutpost = hfwn_return_value($pg_id, $butloc, $ctx, 'postname');
 $updbutpost = hfwn_return_value($pg_id, $updloc, $ctx, 'postname');
+$filbutpost = hfwn_return_value($pg_id, $updloc, 'todo_fbc', 'postname');
 
+// Any new entries or updates must be dealt with.
+// process_post is from the form handling classes library.
+// It has the form process_post(&$p=null, $pg_id=null, $button=null, $ctx=null, $butloc=null)
 process_post($_POST, $pg_id, $addbutpost, $ctx, $butloc);
 process_post($_POST, $pg_id, $updbutpost, $ctx, $updloc);
+$todosets = process_post($_REQUEST, $pg_id, $filbutpost, 'todo_fbc', $updloc);
 
-// Get some info
+// Get some info.
 $header = hfwn_return_value($pg_id, 'hdr', $ctx);
 $sheader = hfwn_return_value($pg_id, 'shdr', $ctx);
 $form = hfwn_return_value($pg_id, 'entryform', $ctx, 'txt');
 
-// Get the current (old) values
-$cur_vals = get_current_values($pg_id, 'entryform', $ctx);
+// Arrow Nav row
+// See below for $gfor description.
+// The $hfwngcv is part of the standard HFW export lib function set.
+// It gets named context values from hfwn_get_ctx_vals.
+// Full description is in the library code.  It retrieves values from the HFW database
+// and returns an array.
+$arr_row = $gfor($hfwngcv(array('arrows'), 'block', 'csv', $pg, $pg), 'php_func_call');
 
-// We call the gen form obj row function.
+// Filter row (To-Do List page only)
+$filter_row = $gfor($hfwngcv(array('def_ctx'), 'block', 'csv', $pg, $pg), 'php_func_call', $todosets);
+
+// Get the current (old) values.
+// get_current_values is from the form handling classes library.
+$cur_vals = get_current_values($pg_id, 'entryform', $sort_ctx);
+
+// We call the gen form obj row ($gfor) function from the object handling classes library.
 // The first param takes the context array and returns the csv vals for block objects.
-// The second param tells gfor where to look for internal setting vals, in this case php function calls.
-$newrow = $gfor($hfwngcv($ctx_array, 'block', 'csv'), 'php_func_call');
+// The second param tells $gfor where to look for internal setting vals, in this case php function calls.
+// It's the alternative setting type, set up as a pair with the original setting type in the GUI.
+// We filter on 'rod' to start at the top of the html for each row object (row outer div).
+$newrow = $gfor($hfwngcv($ctx_array, 'block', 'csv', $pg, $pg, true, 'rod'), 'php_func_call');
 
+$hdr_row = $gfor($hfwngcv($hdr_array, 'block', 'csv', $pg, $pg, true, 'rod'), 'php_func_call');
+
+	$hdrstr = null;
+			
+	// $hdr_row comes from using $gfor to look up objects in the HFW database, if any.
+	if (isset($hdr_row) && is_array($hdr_row) && count($hdr_row) > 0 && isset($cur_vals) && is_array($cur_vals) && count($cur_vals) > 0)
+	{
+		$hdrstr = implode("\n\n", $hdr_row);
+		}	# End of isset and is_array check
+	
+$new_hdr_row = $gfor($hfwngcv($new_hdr_array, 'block', 'csv', $pg, $pg, true, 'rod'), 'php_func_call');
+
+	$newhdrstr = null;
+			
+	// $hdr_row comes from using $gfor to look up objects in the HFW database, if any.
+	if (isset($new_hdr_row) && is_array($new_hdr_row) && count($new_hdr_row) > 0)
+	{
+		$newhdrstr = implode("\n\n", $new_hdr_row);
+		}	# End of isset and is_array check
+	
 ?>
 								<div class="contact-wrap w-100 p-md-5 p-4">
 	<!-- div class="contact-wrap w-100 p-md-5 p-4" start ↓ -->
 									
 									<h3><?php echo $header; ?></h3>
-									<p class="mb-4"><?php echo $sheader; ?></p>
-<!--										<div id="form-message-warning" class="mb-4"></div> 
-										<div id="form-message-success" class="mb-4">Your message was sent, thank you!</div>
--->	
+<!--									<h4>&#8739;&#11207;&nbsp;&#11207;&nbsp;&nbsp;&#11208;&nbsp;&#11208;&#8739;</h4>-->
+									<?php if (isset($arr_row[0]) && !empty($arr_row[0]) ) {echo $arr_row[0];} ?>
+
 									<form method="POST" id="<?php echo $form; ?>" name="<?php echo $form; ?>" class="contactForm">
+									
+									<?php if (isset($filter_row[0]) && !empty($filter_row[0]) ) {echo $filter_row[0] . "<br>";} ?>
+
+									<p class="mb-4"><?php echo $sheader; ?></p>
 <?php
-	// We go through each old entry
+	// Column headers, if any.
+	// $aoo comes from the included HTML object classes library.
+	echo $aoo('comment', "core=PHP Column Headers Row Generation start ↓");
+	
+	// Here we use $aoo to output the HTML.
+	echo $aoo('div', "class=row;\ncore=$hdrstr\n\n");
+	
+	$rowstr = null;
+	
+	echo $aoo('comment', "core=PHP Column Headers Row Generation end ↑");
+			
+	// We go through each old entry.
 	if (isset($cur_vals) && is_array($cur_vals) )
 	{
 		foreach ($cur_vals as $ci=>$cv)
 		{
-			$oldrow = $gfor($hfwngcv($cur_ctx_array, 'block', 'csv'), 'php_func_call', $cv);
+			// Here we use $gfor for the population of each row of current values ($cv).
+			// "php_func_call" tells $gfor what setting type in HFW to get the info on string swaps.
+			$oldrow = $gfor($hfwngcv($cur_ctx_array, 'block', 'csv', $pg, $pg, true, 'rod'), 'php_func_call', $cv);
 			$rowstr = null;
 
 			echo $aoo('comment', "core=PHP Old Row Generation start ↓");
 			
+			// We build up the row as a string from the $oldrow array.
 			if (isset($oldrow) && is_array($oldrow) )
 			{
-				foreach ($oldrow as $n=>$nr)
-				{
-					$rowstr .= "$nr\n\n";
-					}
+				$rowstr = implode("\n\n", $oldrow);
 				}	# End of isset and is_array check
 				
+			// Here we use $aoo to output the HTML.
 			echo $aoo('div', "class=row;\ncore=$rowstr\n\n");
+			
 			$rowstr = null;
+			
 			echo $aoo('comment', "core=PHP Old Row Generation end ↑");
 			
 			echo $aoo('comment', "core=div class=\"row mb-4\" start ↓");
@@ -116,13 +187,25 @@ $newrow = $gfor($hfwngcv($ctx_array, 'block', 'csv'), 'php_func_call');
 										</div>
 				<!-- Button Row ↑ -->
 
+<?php
+
+	// Column headers, if any
+	echo $aoo('comment', "core=PHP Column Headers Row Generation start ↓");
+			
+	echo $aoo('div', "class=row;\ncore=$newhdrstr\n\n");
+	$newhdrstr = null;
+	echo $aoo('comment', "core=PHP Column Headers Row Generation end ↑");
+			
+?>
 										<div class="row">
 			<!-- PHP New Row Generation start ↓ -->
 <?php
 
-	foreach ($newrow as $n=>$nr)
-		{echo "$nr\n\n";}
-
+	if (isset($newrow) && is_array($newrow) )
+	{
+		echo implode("\n\n", $newrow);
+		}
+		
 ?>											
 			<!-- PHP New Row Generation end ↑ -->									
 										</div>

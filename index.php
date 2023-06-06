@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2011-2022 Cargotrader, Inc. All rights reserved.
+Copyright 2011-2023 Cargotrader, Inc. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are
 permitted provided that the following conditions are met:
@@ -36,44 +36,46 @@ or implied, of Cargotrader, Inc.
 require_once("rel.path.inc.php");
 require_once($incpath . 'include.classes.inc.php');
 
+// We give the page name, pg_id and context to start out
 $pg = 'index';
 $pg_id = 1;
+$ctx = 'def_ctx';
 
-$title = hfwn_return_value($pg_id, 'title', 'def_ctx');
-$favicon = hfwn_return_value($pg_id, 'favicon', 'def_ctx');
-$metadesc = hfwn_return_value($pg_id, 'metadesc', 'def_ctx');
-$metakeys = hfwn_return_value($pg_id, 'metakeys', 'def_ctx');
-$metaview = hfwn_return_value($pg_id, 'metaview', 'def_ctx');
-$stylesheets = hfwn_return_value($pg_id, 'stylesheets', 'def_ctx');
-$header = hfwn_return_value($pg_id, 'hdr', 'def_ctx');
+// We grab important page values using the pg_id and context
+include_once ($incpath . 'header.vars.inc.php');
 
+// We use some of the values we grabbed to start loading HTML
 include_once ($incpath . 'std.html.contact.header.inc.php');
 
+// We use $esroo on the header.nav include.
+// This comes from the included html object classes library file.
+//  $esroo takes a compact form of HTML, performs string substitutions as needed
+// and then outputs HTML5.
+// Here the HFW stores one button to the full To-Do List page as
+// a||href=todo.php;\ncore=Full To-Do List
+// and another button to the Full Diary page as
+// a||href=diary.php;\ncore=Full Diary List.
+// The syntax for the compact HTML is not discussed here in detail.
+include_once ($incpath . 'header.nav.inc.php');
+
 ?>
-	<body>
-	<section class="ftco-section">
-<!-- s1 ↓ -->
-		<div class="container-fluid">
-<!-- d1 ↓ -->			
-			<div class="row justify-content-center"><div class="col-md-6 text-center mb-5"><h2 class="heading-section"><?php echo $header; ?></h2></div></div>
-			
-			<div class="row justify-content-center">
-<!-- d2 ↓ -->
-				<div class="col-md-12">
-<!-- d3 ↓ -->
-					<div class="wrapper">
-<!-- d4 ↓ -->
-						<div class="row no-gutters">
-<!-- d5 ↓ Contains Both Halves of the page -->
 							<div class="col-lg-6">
 	<!-- d6 ↓ Left Half of Page class=col-lg-6 -->
-	
 <?php
 
+// The page is split into two halves.
+// The left half is the To-Do List.
+// This is started here by provding a new context.
+// Also needed are six columns of arbitrary context
+// for both existing entries (old) and any new ones (new).
 $ctx = 'todo';
+$sort_ctx = $ctx;
 $cur_ctx_array = array('lc1o', 'lc2o', 'lc3o', 'lc4o', 'lc5o', 'lc6o');
 $ctx_array = array('lc1n', 'lc2n', 'lc3n', 'lc4n', 'lc5n', 'lc6n');
+$hdr_array = array();
+$new_hdr_array = array();
 
+// We process the left half of the page.
 include ($incpath . 'page.half.php');
 
 ?>
@@ -86,35 +88,24 @@ include ($incpath . 'page.half.php');
 	
 <?php
 
+// We proceed to the right side of the page, or 'Diary'.
+// It has three columns instead of six.
 $ctx = 'diary';
+$sort_ctx = $ctx;
 $cur_ctx_array = array('rc1o', 'rc2o', 'rc3o');
 $ctx_array = array('rc1n', 'rc2n', 'rc3n');
+$hdr_array = array();
+$new_hdr_array = array();
 
+// We can reuse the code for the right half.
 include ($incpath . 'page.half.php');
 
 ?>
 
 	<!-- d6 ↑ Right Half of Page class=col-lg-6 -->
 								</div>
-<!-- d5 ↑ Contains Both Halves of the page -->
-						</div>
-<!-- d4 ↑ -->
-					</div>
-<!-- d3 ↑ -->
-				</div>
-<!-- d2 ↑ -->
-			</div>
-<!-- d1 ↑ -->	
-		</div>
-<!-- s1 ↑ -->
-	</section>
-<!--
-	<script src="js/jquery.min.js"></script>
-	<script src="js/popper.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/jquery.validate.min.js"></script>
-	<script src="js/main.js"></script>
--->
-	</body>
-</html>
+<?php
 
+include_once ($incpath . 'footer.inc.php');
+
+?>

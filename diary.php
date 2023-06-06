@@ -31,27 +31,46 @@ or implied, of Cargotrader, Inc.
 * website.  The website itself, while functional, is built for demonstration purposes only and will probably be 
 * inadequate to address any practical need.
 * 
-* 
-* Change the default passwords below and in hfw.db.info.php for added security
-* 
 */
 
-// DB connection info
+require_once("rel.path.inc.php");
+require_once($incpath . 'include.classes.inc.php');
 
-		$dsn = array(
-			'hostspec' => 'localhost', 
-			'username' => 'tdlall', 
-			'password' => 'aishdiha&*Y(*G(&^G(jg&*(*8769876t', 
-			'database' => 'todolist',
-			'port' => null,
-			'socket' => null, 
-			'flags'=> null);
+// We give the page name, pg_id and context to start out
+$pg = 'diary';
+$pg_id = 2;
+$ctx = 'def_ctx';
 
-	if ($user_type == 'delete') 
-		{$dsn['username'] = 'tdldelete'; $dsn['password'] = '8yihsdf8ykjkjh*&T(&^(&GIUYG*&^h78y98y98ya0s8df';}
-	elseif ($user_type == 'select') 
-		{$dsn['username'] = 'tdlselect'; $dsn['password'] = '98ys0d98fjskd*&T&(^FG(&T(&^';}
-	elseif ($user_type == 'add') 
-		{$dsn['username'] = 'tdladd'; $dsn['password'] = 'kajsdf9hasp9dfh#^%#^$*(^)*()(*)&()*&jdklj09';}
+// We grab important page values using the pg_id and context
+include_once ($incpath . 'header.vars.inc.php');
+
+// We use some of the values we grabbed to start loading HTML
+include_once ($incpath . 'std.html.contact.header.inc.php');
+
+// We use $esroo on the header.nav include.
+// This comes from the included html object classes library file.
+//  $esroo takes a compact form of HTML, performs string substitutions as needed
+// and then outputs HTML5.
+// Here the HFW stores one button to the Full To-Do List page as
+// a||href=todo.php;\ncore=Full To-Do List
+// and another button to the index page as
+// a||href=index.php;\ncore=Quick Page
+// The syntax for the compact HTML is not discussed here in detail.
+include_once ($incpath . 'header.nav.inc.php');
+
+// We need to provide the context for the rest of the page, 
+// along with the column contexts and column header contexts (not used in this case).
+// These are the same contexts used on the index page for the right half.
+$ctx = 'diary';
+$sort_ctx = $ctx;
+$cur_ctx_array = array('rc1o', 'rc2o', 'rc3o');
+$ctx_array = array('rc1n', 'rc2n', 'rc3n');
+$hdr_array = array();
+$new_hdr_array = array();
+
+// We can reuse the code for the Diary Entries page
+include ($incpath . 'page.half.php');
+
+include_once ($incpath . 'footer.inc.php');
 
 ?>

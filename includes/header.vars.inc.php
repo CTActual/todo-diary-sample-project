@@ -31,27 +31,22 @@ or implied, of Cargotrader, Inc.
 * website.  The website itself, while functional, is built for demonstration purposes only and will probably be 
 * inadequate to address any practical need.
 * 
-* 
-* Change the default passwords below and in hfw.db.info.php for added security
-* 
 */
 
-// DB connection info
-
-		$dsn = array(
-			'hostspec' => 'localhost', 
-			'username' => 'tdlall', 
-			'password' => 'aishdiha&*Y(*G(&^G(jg&*(*8769876t', 
-			'database' => 'todolist',
-			'port' => null,
-			'socket' => null, 
-			'flags'=> null);
-
-	if ($user_type == 'delete') 
-		{$dsn['username'] = 'tdldelete'; $dsn['password'] = '8yihsdf8ykjkjh*&T(&^(&GIUYG*&^h78y98y98ya0s8df';}
-	elseif ($user_type == 'select') 
-		{$dsn['username'] = 'tdlselect'; $dsn['password'] = '98ys0d98fjskd*&T&(^FG(&T(&^';}
-	elseif ($user_type == 'add') 
-		{$dsn['username'] = 'tdladd'; $dsn['password'] = 'kajsdf9hasp9dfh#^%#^$*(^)*()(*)&()*&jdklj09';}
+// We grab important page values using the pg_id and context.
+// hfwn_return_value returns a value directly from the HFW database.
+// This is the simplest use case.
+// The location names are fixed in the code here.
+$title = hfwn_return_value($pg_id, 'title', $ctx);
+$favicon = hfwn_return_value($pg_id, 'favicon', $ctx);
+$metadesc = hfwn_return_value($pg_id, 'metadesc', $ctx);
+$metakeys = hfwn_return_value($pg_id, 'metakeys', $ctx);
+$metaview = hfwn_return_value($pg_id, 'metaview', $ctx);
+$stylesheets = hfwn_return_value($pg_id, 'stylesheets', $ctx);
+$header = hfwn_return_value($pg_id, 'hdr', $ctx);
+$navleft = hfwn_return_value($pg_id, 'navbtnleft', $ctx);
+$navright = hfwn_return_value($pg_id, 'navbtnright', $ctx);
+// The copyright notice is a footer object
+$crnote = hfwn_return_value($pg_id, 'crnote', $ctx);
 
 ?>

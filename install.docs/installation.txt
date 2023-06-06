@@ -28,4 +28,4 @@ If you are not a website programmer and are not familiar with these technologies
 
 11) You may need to set up the website in your web-server configuration file.  You should use security to prevent browsing on anciliary folders, essentially, anything other than css, js, fonts and images.
 
-12)  We've included much of the original code that came with the template, but is no longer being used, such as the js, scss, images and php folders.  A lot of the css is unnecessary too.  It remains here if you want it.
+12)  We've included a lot of the original code that came with the template, but is no longer being used, such as the js, scss, images and php folders.  A lot of the css is unnecessary too.  It remains here if you want it.

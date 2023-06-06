@@ -34,7 +34,6 @@ or implied, of Cargotrader, Inc.
 */
 
 ?>
-
 <!DOCTYPE HTML>
 <html>
 	<head>

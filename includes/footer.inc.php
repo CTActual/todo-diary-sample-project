@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2011-2023 Cargotrader, Inc. All rights reserved.
+Copyright 2011-2022 Cargotrader, Inc. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are
 permitted provided that the following conditions are met:
@@ -31,27 +31,28 @@ or implied, of Cargotrader, Inc.
 * website.  The website itself, while functional, is built for demonstration purposes only and will probably be 
 * inadequate to address any practical need.
 * 
-* 
-* Change the default passwords below and in hfw.db.info.php for added security
-* 
 */
 
-// DB connection info
-
-		$dsn = array(
-			'hostspec' => 'localhost', 
-			'username' => 'tdlall', 
-			'password' => 'aishdiha&*Y(*G(&^G(jg&*(*8769876t', 
-			'database' => 'todolist',
-			'port' => null,
-			'socket' => null, 
-			'flags'=> null);
-
-	if ($user_type == 'delete') 
-		{$dsn['username'] = 'tdldelete'; $dsn['password'] = '8yihsdf8ykjkjh*&T(&^(&GIUYG*&^h78y98y98ya0s8df';}
-	elseif ($user_type == 'select') 
-		{$dsn['username'] = 'tdlselect'; $dsn['password'] = '98ys0d98fjskd*&T&(^FG(&T(&^';}
-	elseif ($user_type == 'add') 
-		{$dsn['username'] = 'tdladd'; $dsn['password'] = 'kajsdf9hasp9dfh#^%#^$*(^)*()(*)&()*&jdklj09';}
-
 ?>
+<!-- d5 ↑ Contains Both Halves of the page -->
+						</div>
+<!-- d4 ↑ -->
+					</div>
+<!-- d3 ↑ -->
+				</div>
+<!-- d2 ↑ -->
+
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+					<br><p><?php echo $crnote; ?></p>
+				</div>
+			</div>
+			
+<!-- d1 ↑ -->	
+		</div>
+<!-- s1 ↑ -->
+	</section>
+
+	</body>
+</html>
