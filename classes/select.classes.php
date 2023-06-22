@@ -338,7 +338,7 @@ function get_arb_todo_list($pg=1, $limit=25, $g=null, $sort='crn_date')
 	
 //________________________________________________________________________________________
 //________________________________________________________________________________________
-function get_num_pgs($limit=25, $f='diary')
+function get_num_pgs($f='diary', $limit=25)
 {
 	if (!check_index($limit) ) {$limit = $GLOBALS['pagination_limit'];}
 	
@@ -420,7 +420,9 @@ function get_cur_pg($g=null, $f='diary')
 function get_cur_diary_pg($g=null)
 {
 	// Pull in the $_GET variable needed, or assume last page
-	if (isset($_GET[$g]) && !empty($_GET[$g]) && check_index($_GET[$g]) ) {$pg = $_GET[$g];} else {$pg = get_num_diary_pgs();}
+	$pgs = get_num_diary_pgs();
+	
+	if (isset($_GET[$g]) && !empty($_GET[$g]) && check_index($_GET[$g]) && $_GET[$g] <= $pgs) {$pg = $_GET[$g];} else {$pg = $pgs;}
 
 	return $pg;
 	}
@@ -429,7 +431,9 @@ function get_cur_diary_pg($g=null)
 function get_cur_todo_pg($g=null)
 {
 	// Pull in the $_GET variable needed, or assume last page
-	if (isset($_GET[$g]) && !empty($_GET[$g]) && check_index($_GET[$g]) ) {$pg = $_GET[$g];} else {$pg = get_num_todo_pgs();}
+	$pgs = get_num_todo_pgs();
+	
+	if (isset($_GET[$g]) && !empty($_GET[$g]) && check_index($_GET[$g]) && $_GET[$g] <= $pgs) {$pg = $_GET[$g];} else {$pg = $pgs;}
 
 	return $pg;
 	}
