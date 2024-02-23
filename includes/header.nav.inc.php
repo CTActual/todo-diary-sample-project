@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2011-2022 Cargotrader, Inc. All rights reserved.
+Copyright 2011-2023 Cargotrader, Inc. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are
 permitted provided that the following conditions are met:
@@ -42,7 +42,7 @@ or implied, of Cargotrader, Inc.
 			<div class="row justify-content-center">
 				<div class="col-md-6 text-center mb-5">
 					<h2 class="heading-section"><?php echo $header; ?></h2>
-					<p><div class="btn"><?php echo $esroo($navleft); ?></div><div class="btn"><?php echo $esroo($navright); ?></div></p>
+					<div class="btn"><?php echo $esroo($navleft); ?></div><div class="btn"><?php echo $esroo($navright); ?></div>
 				</div>
 			</div>
 			

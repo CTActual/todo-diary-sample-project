@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2011-2023 Cargotrader, Inc. All rights reserved.
+Copyright 2011-2024 Cargotrader, Inc. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are
 permitted provided that the following conditions are met:
@@ -172,6 +172,8 @@ function gen_form_obj($obj=null, $func_call=null, $is_core=false, $alt='__', $se
 	if (isset($ext_vals) && is_array($ext_vals) && count($ext_vals) > 0)
 	{
 		if (strpos($obj, $alt) !== false) {$obj = val_text_swapper($obj, $ext_vals, $alt);}
+		
+		// Change the input values on any function calls
 		if (isset($func_call) && !empty($func_call) && strpos($obj, $alt) !== false) {$func_call = val_text_swapper($func_call, $ext_vals, $alt);}
 		}
 
@@ -221,16 +223,16 @@ function gen_form_obj($obj=null, $func_call=null, $is_core=false, $alt='__', $se
 
 		if (is_array($cores) )
 		{
-			// This will overwrite any existing core value that comes from the regular "core=" compressed HTML string.
+			// This will not overwrite any existing core value that comes from the regular "core=" compressed HTML string.
 			// These regular "core=" values would normally be static and not require any special parsing here since
 			// That parsing is done through the HTML Object Classes library, which cannot by itself parse HFW references.
-			$con['core'] = null;
+			if (!isset($con['core']) ) {$con['core'] = null;}
 			
 			foreach ($cores as $c=>$core)
 			{
-				// $esrgtac returns __comma__ for commas, so we need to pass that as the alt separator.
+				// Here we call this function iteratively.  We parse csv lists using hfwn_csv_return_value, making use of the csv list setting type
 				// We force $is_core = true to process the object fully, but not before all its internal data-cores are processed first.
-				$con['core'] .= gen_form_obj($csvhfwnrv($core, '__comma__'), $csvhfwnrv($core, '__comma__', $set_type_lbl), true, $alt, $set_type_lbl, $ext_vals);	
+				$con['core'] .= gen_form_obj($csvhfwnrv($core, ',', null), $csvhfwnrv($core, ',', $set_type_lbl), true, $alt, $set_type_lbl, $ext_vals);	
 				}	# End of foreach
 			}	# End of is_array
 		}	# End of data-core checking
@@ -318,7 +320,7 @@ function val_text_swapper($val=null, $subs=array(), $alt='__')
 				// $m is the lookup key to find the new string in $subs.
 				if ($k % 2 === 0)
 				{
-					if (isset($subs[$m]) )
+					if (array_key_exists($m, $subs) )
 					{
 						// We replace __string__ with the value from $subs[$m] in val
 						$val = str_replace("$alt{$m}$alt", $subs[$m], $val);

@@ -1606,6 +1606,7 @@ pre {
   -o-transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out; }
+  
   @media (prefers-reduced-motion: reduce) {
     .form-control {
       -webkit-transition: none;
@@ -8343,6 +8344,9 @@ textarea.form-control {
     flex-wrap:nowrap !important; 
     align-items:flex-end !important;}
   
+  .fbtbpad {
+	padding-top: 15px;}
+	
   .form-control75 {
   background: transparent;
   color: rgba(0, 0, 0, 0.8);
@@ -8363,3 +8367,15 @@ textarea.form-control {
     
   .label75 {
     font-weight:bold; }
+    
+  .labeldown {
+	font-weight:bold;
+	display: inline;
+	margin-right: 15px;
+	float: left;
+	}
+	
+  .boxdown {
+	display:inline;
+	}
+	

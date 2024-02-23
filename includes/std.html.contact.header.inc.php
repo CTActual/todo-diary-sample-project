@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2011-2022 Cargotrader, Inc. All rights reserved.
+Copyright 2011-2024 Cargotrader, Inc. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are
 permitted provided that the following conditions are met:
@@ -35,7 +35,7 @@ or implied, of Cargotrader, Inc.
 
 ?>
 <!DOCTYPE HTML>
-<html>
+<html lang="en-US">
 	<head>
 		<title><?php echo $title; ?></title>
 		<link rel="shortcut icon" href="<?php echo $favicon; ?>" >

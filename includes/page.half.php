@@ -56,14 +56,17 @@ $updoldbut = hfwn_return_value($pg_id, $updloc, $ctx, 'csv');
 // This is a bit more flexible.
 $addbutpost = hfwn_return_value($pg_id, $butloc, $ctx, 'postname');
 $updbutpost = hfwn_return_value($pg_id, $updloc, $ctx, 'postname');
-$filbutpost = hfwn_return_value($pg_id, $updloc, 'todo_fbc', 'postname');
 
 // Any new entries or updates must be dealt with.
 // process_post is from the form handling classes library.
 // It has the form process_post(&$p=null, $pg_id=null, $button=null, $ctx=null, $butloc=null)
 process_post($_POST, $pg_id, $addbutpost, $ctx, $butloc);
 process_post($_POST, $pg_id, $updbutpost, $ctx, $updloc);
-$todosets = process_post($_REQUEST, $pg_id, $filbutpost, 'todo_fbc', $updloc);
+
+// If we want we can filter out some PGRC (POST, GET, REQUEST, COOKIE) indices--otherwise pass the entire
+// REQUEST array to the string-swap function in $gfor, which can be risky in some cases.
+// Also, we can return blank values because the list is specific.
+$getposts = retrieve_posts($_REQUEST, $hfwngcv(array($postctx), 'empty', 'postname', $pg, $pg), true);
 
 // Get some info.
 $header = hfwn_return_value($pg_id, 'hdr', $ctx);
@@ -78,8 +81,9 @@ $form = hfwn_return_value($pg_id, 'entryform', $ctx, 'txt');
 // and returns an array.
 $arr_row = $gfor($hfwngcv(array('arrows'), 'block', 'csv', $pg, $pg), 'php_func_call');
 
-// Filter row (To-Do List page only)
-$filter_row = $gfor($hfwngcv(array('def_ctx'), 'block', 'csv', $pg, $pg), 'php_func_call', $todosets);
+// Filter row -- We could just use $_REQUEST instead of $getposts
+// Filtering helps prevent swaps that might otherwise occur.
+$filter_row = $gfor($hfwngcv(array($ctx), 'block', 'csv', $pg, $pg), 'php_func_call', $getposts);
 
 // Get the current (old) values.
 // get_current_values is from the form handling classes library.
@@ -140,11 +144,13 @@ $new_hdr_row = $gfor($hfwngcv($new_hdr_array, 'block', 'csv', $pg, $pg, true, 'r
 	// We go through each old entry.
 	if (isset($cur_vals) && is_array($cur_vals) )
 	{
+		$row_objs = $hfwngcv($cur_ctx_array, 'block', 'csv', $pg, $pg, true, 'rod');
+		
 		foreach ($cur_vals as $ci=>$cv)
 		{
 			// Here we use $gfor for the population of each row of current values ($cv).
 			// "php_func_call" tells $gfor what setting type in HFW to get the info on string swaps.
-			$oldrow = $gfor($hfwngcv($cur_ctx_array, 'block', 'csv', $pg, $pg, true, 'rod'), 'php_func_call', $cv);
+			$oldrow = $gfor($row_objs, 'php_func_call', $cv);
 			$rowstr = null;
 
 			echo $aoo('comment', "core=PHP Old Row Generation start ↓");

@@ -1,4 +1,4 @@
-Check out our new version for 2023!
+Check out our new version for 2024!
 
 There is important documentation in the **install.docs** folder.
 
@@ -9,3 +9,5 @@ This is a sample website/app that uses the **Hoopla Framework** as a backbone fo
 The goal is to demonstrate a possible use of the **Hoopla Framework** and create a basic how-to.
 
 It relies on some 3<sup>rd</sup> party HTML and CSS.  See copyright and license information within each file.
+
+<pre><a href="https://www.hooplaframework.com">The Hoopla Framework Website!</a></pre>

@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS todolist (
   comp_date date DEFAULT NULL COMMENT 'Completion Date',
   status_type_id int UNSIGNED NOT NULL COMMENT 'Status of the Item',
   PRIMARY KEY (id),
-  KEY type id (type_id),
+  KEY type_id (type_id),
   KEY crn_date (crn_date),
   KEY deadline (dl_date),
   KEY comp_date (comp_date)

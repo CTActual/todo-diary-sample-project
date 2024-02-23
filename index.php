@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2011-2023 Cargotrader, Inc. All rights reserved.
+Copyright 2011-2024 Cargotrader, Inc. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are
 permitted provided that the following conditions are met:
@@ -69,9 +69,10 @@ include_once ($incpath . 'header.nav.inc.php');
 // Also needed are six columns of arbitrary context
 // for both existing entries (old) and any new ones (new).
 $ctx = 'todo';
+$postctx = null;
 $sort_ctx = $ctx;
-$cur_ctx_array = array('lc1o', 'lc2o', 'lc3o', 'lc4o', 'lc5o', 'lc6o');
-$ctx_array = array('lc1n', 'lc2n', 'lc3n', 'lc4n', 'lc5n', 'lc6n');
+$cur_ctx_array = explode(',', hfwn_return_value($pg_id, 'oldcolctxs', $ctx) );
+$ctx_array = explode(',', hfwn_return_value($pg_id, 'newcolctxs', $ctx) );
 $hdr_array = array();
 $new_hdr_array = array();
 
@@ -91,9 +92,10 @@ include ($incpath . 'page.half.php');
 // We proceed to the right side of the page, or 'Diary'.
 // It has three columns instead of six.
 $ctx = 'diary';
+$postctx = null;
 $sort_ctx = $ctx;
-$cur_ctx_array = array('rc1o', 'rc2o', 'rc3o');
-$ctx_array = array('rc1n', 'rc2n', 'rc3n');
+$cur_ctx_array = explode(',', hfwn_return_value($pg_id, 'oldcolctxs', $ctx) );
+$ctx_array = explode(',', hfwn_return_value($pg_id, 'newcolctxs', $ctx) );
 $hdr_array = array();
 $new_hdr_array = array();
 

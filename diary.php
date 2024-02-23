@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2011-2023 Cargotrader, Inc. All rights reserved.
+Copyright 2011-2024 Cargotrader, Inc. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are
 permitted provided that the following conditions are met:
@@ -62,9 +62,10 @@ include_once ($incpath . 'header.nav.inc.php');
 // along with the column contexts and column header contexts (not used in this case).
 // These are the same contexts used on the index page for the right half.
 $ctx = 'diary';
+$postctx = 'diary_fbc';
 $sort_ctx = $ctx;
-$cur_ctx_array = array('rc1o', 'rc2o', 'rc3o');
-$ctx_array = array('rc1n', 'rc2n', 'rc3n');
+$cur_ctx_array = explode(',', hfwn_return_value($pg_id, 'oldcolctxs', $ctx) );
+$ctx_array = explode(',', hfwn_return_value($pg_id, 'newcolctxs', $ctx) );
 $hdr_array = array();
 $new_hdr_array = array();
 

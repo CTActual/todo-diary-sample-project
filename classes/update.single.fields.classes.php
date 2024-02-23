@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2011-2022 Cargotrader, Inc. All rights reserved.
+Copyright 2011-2023 Cargotrader, Inc. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are
 permitted provided that the following conditions are met:
@@ -186,7 +186,7 @@ class update_diary extends update_standard
 		$field_regex = array(null, null, 'int');
 		$field_null = "1 0 1";
 
-		if ($field_name == 'todo_id' && $new_value == 0) {return null;}
+		if ($field_name == 'todo_id' && $new_value == 0) {$new_value = null;}
 		
 		$this->std_update($table_name, $fields, $field_len, $field_type, $field_regex, $field_null, $field_name, $new_value, $rec_id, $extra);
 		}	# End of the construct function

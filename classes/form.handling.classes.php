@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2011-2023 Cargotrader, Inc. All rights reserved.
+Copyright 2011-2024 Cargotrader, Inc. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are
 permitted provided that the following conditions are met:
@@ -220,6 +220,40 @@ function form_list_update_save($p=null, $upd_but_loc=null, $save_but_loc=null, $
 		}	# End of save or update conditional
 	return $ins;
 	}	# End of form_list_update_save function
+	
+//________________________________________________________________________________________
+function retrieve_posts($p=array(), $objs=array(), $blank=false)
+{
+	# This function takes the output of $hfwngcv and gets the post values, if any.
+	# $p generally comes from $_REQUEST
+	
+	$blank = force_boolean($blank, false);
+	
+	if (empty($objs) || !is_array($objs) || count($objs) < 1) {return null;}
+	
+	// We would normally not allow the $_REQUEST array to not have anything, but this can be overridden
+	if (!$blank && (empty($p) || !is_array($p) || count($p) < 1) ) {return null;}
+	
+	$output = array();
+	
+	foreach ($objs as $obj)
+	{
+		if (isset($obj['val']) && $obj['val'] !== Null) 
+		{
+			$index = $obj['val'];
+			
+			if (isset($p[$index]) && $p[$index] !== Null)
+			{
+				$output[$index] = $p[$index];
+				}
+			elseif ($blank == true)
+				{$output[$index] = null;}
+			}
+		}
+	unset($index);
+
+	return $output;
+	}	# End of retrieve_posts
 	
 //________________________________________________________________________________________
 function process_post(&$p=null, $pg_id=null, $button=null, $ctx=null, $butloc=null)
