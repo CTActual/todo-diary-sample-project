@@ -240,8 +240,8 @@ function get_arb_diary_list($pg=1, $limit=25, $g=null)
 	if (!empty($g['filbytext']) )
 	{
 		$i .= 's';
-		$n = "and note Like CONCAT('%', ?, '%') ";
-		$input['filbytext'] = $g['filbytext'];
+		$n = "and note Like ? ";
+		$input['filbytext'] = '%' . $g['filbytext'] . '%';
 		}
 	
 	if (!empty($g['filstrtdate']) )
@@ -360,8 +360,8 @@ function get_arb_todo_list($pg=1, $limit=25, $g=null, $sort='crn_date')
 	if (!empty($g['filbytext']) )
 	{
 		$i .= 's';
-		$extra .= " and note Like CONCAT('%', ?, '%') ";
-		$input['filbytext'] = $g['filbytext'];
+		$extra .= " and note Like ? ";
+		$input['filbytext'] = '%' . $g['filbytext'] . '%';
 		}
 	
 	if (check_Index($g['type']) )
@@ -402,7 +402,7 @@ function get_arb_todo_list($pg=1, $limit=25, $g=null, $sort='crn_date')
 	
 	$i .= 'ii';
 
-	$query = "Select id, 
+	$query = "Select todolist.id, 
 			type_id, 
 			note, 
 			crn_date, 
@@ -410,18 +410,22 @@ function get_arb_todo_list($pg=1, $limit=25, $g=null, $sort='crn_date')
 			comp_date, 
 			status_type_id, 
 			Date_Format(crn_date, '%Y-%m-%d') as crn, 
-			(Select type_name From types Where id = type_id Limit 1) as todo_type, 
-			(Select type_name From types Where id = status_type_id Limit 1) as status_type, 
+			t1.type_name as todo_type, 
+			t2.type_name as status_type, 
 			?, 
 			?, 
 			?, 
 			? 
-		From todolist 
-		Where note Is Not Null 
+		From todolist, 
+			types as t1, 
+			types as t2 
+		Where note Is Not Null and 
+			t1.id = type_id and 
+			t2.id = status_type_id 
 		$extra
 		Order By $sort 
 		Limit ? Offset ?";
-
+		
 	return tcol_pattern($query, $i, $input, array('note_id', 'type_id', 'note', 'crn_date', 'dl_date', 'comp_date', 'status_type_id', 'crn', 'todo_type', 'status_type', 'pg', 'pgs', 'limit', 'offset') );
 	}
 	
@@ -457,8 +461,8 @@ function get_num_diary_pgs($limit=25)
 	if (!empty($g['filbytext']) )
 	{
 		$i .= 's';
-		$n = "note Like CONCAT('%', ?, '%') ";
-		$input['filbytext'] = $g['filbytext'];
+		$n = "note Like ? ";
+		$input['filbytext'] = '%' . $g['filbytext'] . '%';
 		$w = true;
 		}
 	
@@ -489,7 +493,7 @@ function get_num_diary_pgs($limit=25)
 
 	$count = row_pattern($query, $i, $input, array('count') );
 	
-	return ceil($count/$limit);
+	return ($count > 0) ? ceil($count/$limit) : 1;
 	}
 	
 //________________________________________________________________________________________
@@ -512,8 +516,8 @@ function get_num_todo_pgs($limit=25)
 	if (!empty($g['filbytext']) )
 	{
 		$i .= 's';
-		$n = " note Like CONCAT('%', ?, '%') ";
-		$input['filbytext'] = $g['filbytext'];
+		$n = " note Like ? ";
+		$input['filbytext'] = '%' . $g['filbytext'] . '%';
 		
 		if (check_Index($g['type']) || check_Index($g['status']) )
 			{$a = ' and ';}
@@ -594,7 +598,7 @@ function get_num_todo_pgs($limit=25)
 
 	$count = row_pattern($query, $i, $input, array('count') );
 	
-	return ceil($count/$limit);
+	return ($count > 0) ? ceil($count/$limit) : 1;
 	}
 	
 //________________________________________________________________________________________
