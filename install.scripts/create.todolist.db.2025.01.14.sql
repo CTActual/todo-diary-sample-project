@@ -1,16 +1,16 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.5deb2
+-- version 5.1.1deb5ubuntu1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 05, 2023 at 10:37 PM
--- Server version: 8.0.33-0ubuntu0.20.04.2
--- PHP Version: 7.4.3-4ubuntu2.18
+-- Generation Time: Jan 14, 2025 at 11:09 PM
+-- Server version: 8.0.40-0ubuntu0.22.04.1
+-- PHP Version: 8.1.2-1ubuntu2.20
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 
 --
--- Database: todolist
+-- Database: todolistpublic
 --
 CREATE DATABASE IF NOT EXISTS todolist DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 USE todolist;
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS diary (
   PRIMARY KEY (id),
   KEY crn_date (crn_date),
   KEY todo_id (todo_id)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Stores diary entries';
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Stores diary entries';
 
 --
 -- Dumping data for table diary
@@ -46,7 +46,10 @@ INSERT IGNORE INTO diary (id, note, crn_date, todo_id) VALUES
 (8, 'Started work on full to-do list page&period;', '2022-06-23 14:20:19', 2),
 (9, 'Added column sorting on full To-Do List page&period;', '2023-05-17 11:56:41', 5),
 (10, 'Added Specific Contexts to the HFW for better context and value management', '2023-05-17 18:48:12', NULL),
-(11, 'Got sorting and filters working on full to-do list page.', '2023-06-05 15:52:45', 2);
+(11, 'Got sorting and filters working on full to-do list page.', '2023-06-05 15:52:45', 2),
+(12, 'Added new fields to types table for sorting.', '2024-12-29 23:04:32', 3),
+(13, 'Cleaned up code for public release by removing code from the base template that was never needed.', '2025-01-14 22:45:32', 4),
+(14, 'Updated sample db entries and installer.', '2025-01-14 23:04:32', 4);
 
 -- --------------------------------------------------------
 
@@ -108,7 +111,7 @@ INSERT IGNORE INTO todolist (id, type_id, note, crn_date, dl_date, comp_date, st
 -- --------------------------------------------------------
 
 --
--- Table structure for table `types`
+-- Table structure for table types
 --
 
 CREATE TABLE IF NOT EXISTS `types` (
@@ -116,27 +119,31 @@ CREATE TABLE IF NOT EXISTS `types` (
   meta_type_id int UNSIGNED NOT NULL COMMENT 'ID of the Meta Type',
   type_name varchar(63) NOT NULL COMMENT 'Type Name',
   type_dsr varchar(512) NOT NULL COMMENT 'Type Description',
+  spc_ord tinyint UNSIGNED DEFAULT NULL COMMENT 'Custom order types',
+  act_bit tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Turn types on or off',
   PRIMARY KEY (id),
-  KEY meta (meta_type_id)
+  KEY meta (meta_type_id),
+  KEY spc_ord (spc_ord),
+  KEY act_bit (act_bit)
 ) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Stores the various types';
 
 --
--- Dumping data for table `types`
+-- Dumping data for table types
 --
 
-INSERT IGNORE INTO `types` (id, meta_type_id, type_name, type_dsr) VALUES
-(1, 1, 'Work Related', ''),
-(2, 1, 'Shopping', ''),
-(3, 1, 'Exercise', ''),
-(4, 1, 'Taxes', ''),
-(5, 1, 'Medical', ''),
-(6, 1, 'Fun', ''),
-(7, 1, 'Chore', ''),
-(8, 2, 'Unstarted', ''),
-(9, 2, 'In Progress', ''),
-(10, 2, 'On Hold', ''),
-(11, 2, 'Completed', ''),
-(12, 2, 'Cancelled', ''),
-(13, 2, 'No Longer Applicable', ''),
-(14, 2, 'Ended Badly', ''),
-(15, 1, 'T.B.D.', 'To be determined.');
+INSERT IGNORE INTO types (id, meta_type_id, type_name, type_dsr, spc_ord, act_bit) VALUES
+(1, 1, 'Work Related', '', 1, 1),
+(2, 1, 'Shopping', '', 2, 1),
+(3, 1, 'Exercise', '', 3, 1),
+(4, 1, 'Taxes', '', 4, 1),
+(5, 1, 'Medical', '', 5, 1),
+(6, 1, 'Fun', '', 6, 1),
+(7, 1, 'Chore', '', 7, 1),
+(8, 2, 'Unstarted', '', 1, 1),
+(9, 2, 'In Progress', '', 2, 1),
+(10, 2, 'On Hold', '', 3, 1),
+(11, 2, 'Completed', '', 4, 1),
+(12, 2, 'Cancelled', '', 5, 1),
+(13, 2, 'No Longer Applicable', '', 6, 1),
+(14, 2, 'Ended Badly', '', 7, 1),
+(15, 1, 'T.B.D.', 'To be determined.', 8, 1);

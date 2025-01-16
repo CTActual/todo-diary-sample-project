@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.5deb2
+-- version 5.1.1deb5ubuntu1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 23, 2024 at 03:09 PM
--- Server version: 8.0.36-0ubuntu0.20.04.1
--- PHP Version: 7.4.3-4ubuntu2.19
+-- Generation Time: Jan 15, 2025 at 10:30 PM
+-- Server version: 8.0.40-0ubuntu0.22.04.1
+-- PHP Version: 8.1.2-1ubuntu2.20
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 
@@ -238,7 +238,7 @@ INSERT IGNORE INTO pg_objs (id, pg_obj_type_id, obj_name, obj_dsr, acs_str, act_
 (55, 50, 'Filter Start Date', 'Filter diary entries by date&period;', NULL, 1),
 (56, 50, 'Filter End Date', 'Filter diary entries by date&period;', NULL, 1),
 (57, 52, 'Old Entry Columns', 'Column ctx names for old entries&period;', NULL, 1),
-(58, 52, 'New Entry Columns', 'Column ctx names for new entries', '', 1);
+(58, 52, 'New Entry Columns', 'Column ctx names for new entries', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -258,7 +258,7 @@ CREATE TABLE IF NOT EXISTS pg_obj_pg_obj_set_val_brg (
   UNIQUE KEY unique_set (pg_obj_id,pg_obj_set_type_id,pg_id,ctx_id),
   KEY secondary_index (pg_obj_id,pg_obj_set_type_id),
   KEY context (ctx_id)
-) ENGINE=MyISAM AUTO_INCREMENT=7824 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Stores the actual object values for reuse on pages.' ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=8015 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Stores the actual object values for reuse on pages.' ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table pg_obj_pg_obj_set_val_brg
@@ -283,7 +283,7 @@ INSERT IGNORE INTO pg_obj_pg_obj_set_val_brg (id, pg_obj_id, pg_obj_set_type_id,
 (70, 14, 34, 'select||name=newtodostatus;\\nclass=form-control;\\ndata-core=1,newstatusopt,todo,csv;\\nfore=<p><span>Status:</span>;\\naft=</p>;\\ndata-wrapper=div!!class=text', NULL, 3, 1),
 (76, 15, 34, 'option||value=__id__;\\ndval=__dval__;\\ncore=__name__;\\ncorefore=&nbsp;;\\ndata-internal-only=true', NULL, 3, 1),
 (83, 18, 34, 'select||name=newdiarytodo;\\nclass=form-control;\\ndata-core=index,newtodoopt,diary,csv;\\nfore=<p><span>Associated To-Do:</span>;\\naft=</p>;\\ndata-wrapper=div!!class=text', 1, 4, 1),
-(90, 19, 34, 'option||value=__note_id__;\\ncore=__note__;\\ncorefore=&nbsp;;\\ndata-internal-only=true', NULL, 4, 1),
+(90, 19, 34, 'option||value=__note_id__;\\ncore=__note__;\\ncorefore=&nbsp;&#8627;;\\ndata-internal-only=true', NULL, 4, 1),
 (94, 16, 34, 'date||name=newdl;\\nclass=form-control;\\nfore=<p><span>Deadline (If Any):</span>;\\naft=</p>;\\ndata-wrapper=div!!class=text', NULL, 3, 1),
 (100, 17, 34, 'date||name=newcd;\\nclass=form-control;\\nfore=<p><span>Completed:</span>;\\naft=</p>;\\ndata-wrapper=div!!class=text', NULL, 3, 1),
 (105, 20, 26, 'todoform', 1, 3, 1),
@@ -391,7 +391,7 @@ INSERT IGNORE INTO pg_obj_pg_obj_set_val_brg (id, pg_obj_id, pg_obj_set_type_id,
 (1473, 20, 26, 'diaryform', 2, 4, 1),
 (1503, 20, 51, 'get_arb_diary_list\r\n,,pg', 2, 4, 1),
 (1686, 18, 34, 'select||name=newdiarytodo;\\nclass=form-control;\\ndata-core=diary,newtodoopt,diary,csv', 2, 4, 1),
-(1737, 36, 34, 'option||value=__todo_ids__;\\ntval=__todo_id__;\\ncore=__todo__;\\ncorefore=&nbsp;;\\ndata-internal-only=true', 2, 4, 1),
+(1737, 36, 34, 'option||value=__todo_ids__;\\ntval=__todo_id__;\\ncore=__todo__;\\ncorefore=&nbsp;↳;\\ndata-internal-only=true', 2, 4, 1),
 (1779, 35, 34, 'select||name=olddiarytodo[__note_id__];\\nclass=form-control;\\ndata-core=diary,oldtodoopt,diary,csv', 2, 4, 1),
 (2002, 40, 34, 'a||href=todo.php;\\ncore=Full To-Do List', 1, 1, 1),
 (2044, 40, 34, 'a||href=todo.php;\\ncore=Full To-Do List', 2, 1, 1),
@@ -1007,7 +1007,7 @@ INSERT IGNORE INTO srv_meta_data (srv_name, srv_lbl, srv_dsr) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `types`
+-- Table structure for table types
 --
 
 CREATE TABLE IF NOT EXISTS `types` (
@@ -1022,14 +1022,14 @@ CREATE TABLE IF NOT EXISTS `types` (
   UNIQUE KEY std_type_lbl (std_type_lbl),
   UNIQUE KEY unique_name (meta_type_id,type_name(63)),
   KEY meta_type_id (meta_type_id),
-  KEY name (type_name(63))
+  KEY `name` (type_name(63))
 ) ENGINE=MyISAM AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Stores all types except roles, under meta-type' ROW_FORMAT=DYNAMIC;
 
 --
--- Dumping data for table `types`
+-- Dumping data for table types
 --
 
-INSERT IGNORE INTO `types` (id, spc_ord, type_name, std_type_lbl, type_dsr, meta_type_id, act_bit) VALUES
+INSERT IGNORE INTO types (id, spc_ord, type_name, std_type_lbl, type_dsr, meta_type_id, act_bit) VALUES
 (1, 90, 'Admin Menu', 'amenu', 'An alternative list of links for admin users.', 1, 1),
 (2, 70, 'Data Set', 'data', 'A block of data shown on the page. May contain HTML input elements.', 1, 1),
 (6, 100, 'Form', 'form', 'A form encountered on the page.', 1, 1),

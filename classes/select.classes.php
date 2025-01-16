@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2011-2024 Cargotrader, Inc. All rights reserved.
+Copyright 2011-2025 Cargotrader, Inc. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are
 permitted provided that the following conditions are met:
@@ -50,7 +50,8 @@ function get_type_list($mtid=null, $dval=null)
 		? 
 	From types 
 	Where meta_type_id = ? 
-	Order by id";
+	Order by spc_ord, 
+		id";
 		
 	return col_pattern($query, 'ii', array($dval, $mtid), array('id', 'name', 'dval'), true);
 	}
@@ -152,7 +153,18 @@ function get_cur_todo_list($id=null, $limit=29, $t='t')
 	$i .= 'i';
 	$input[] = $limit;
 
-	$query = "Select * 
+	$query = "Select id, 
+			type_id, 
+			note, 
+			crn_date, 
+			dl_date, 
+			comp_date, 
+			status_type_id, 
+			crn, 
+			todo_type, 
+			status_type, 
+			note_length, 
+			Concat(short_note, ' [', Row_Number() Over (), ']') as short_note
 	From (Select id, 
 			type_id, 
 			note, 

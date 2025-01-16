@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2011-2023 Cargotrader, Inc. All rights reserved.
+Copyright 2011-2024 Cargotrader, Inc. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are
 permitted provided that the following conditions are met:
@@ -230,11 +230,11 @@ class update_types extends update_standard
 	function __construct($field_name, $new_value, $rec_id, $extra = null)
 	{
 		$table_name = "types";
-		$fields = array('meta_type_id', 'type_name', 'type_dsr');
+		$fields = array('meta_type_id', 'type_name', 'type_dsr', 'spc_ord', 'act_bit');
 		$field_len = array(null, 63, 512);
-		$field_type = "i s s";		
-		$field_regex = array(null, null, null);
-		$field_null = "0 0 0";
+		$field_type = "i s s i i";
+		$field_regex = array(null, null, null, 'int', 'bool');
+		$field_null = "0 0 0 1 0";
 
 		$this->std_update($table_name, $fields, $field_len, $field_type, $field_regex, $field_null, $field_name, $new_value, $rec_id, $extra);
 		}	# End of the construct function
