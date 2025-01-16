@@ -1,4 +1,4 @@
-Check out our new version for 2024!
+Check out our newest updates for 2025.
 
 There is important documentation in the **install.docs** folder.
 

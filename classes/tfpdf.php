@@ -40,7 +40,7 @@ class tFPDF
 	protected $x, $y;              	// current position in user unit
 	protected $lasth;              	// height of last printed cell
 	protected $LineWidth;          // line width in user unit
-	protected $fontpath = '../pages/public/fonts/';           // directory containing fonts
+	protected $fontpath = '../fonts/';           // directory containing fonts
 	protected $CoreFonts;          // array of core font names
 	protected $fonts;              	// array of used fonts
 	protected $FontFiles;          // array of font files
